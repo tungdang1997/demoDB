@@ -20,7 +20,7 @@ class ProductService {
         let connect = connection.getConnection();
         return new Promise((resolve, reject) => {
             connect.query(`insert into product(price, name, img, description)
-                           values (${product.price}, '${product.name}', '${product.img}', '${product.description}
+                           values (${product.price}, '${product.name}', '111.jpg', '${product.description}
                                    ')`, (err) => {
                 if (err) {
                     reject(err);
@@ -33,33 +33,34 @@ class ProductService {
 
     }
 
-    static update(product, id) {
+    edit(product, id) {
         let connect = connection.getConnection();
+        let ss = `UPDATE product SET name = '${product.name}', price = ${product.price}, description = '${product.description}' WHERE id = ${id}`;
         return new Promise((resolve, reject) => {
-            connect.query(`UPDATE product SET name = '${product.name}', price = ${product.price}, description = '${product.description}' WHERE id = ${id}`, (err, products) => {
+            connect.query(ss, (err) => {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    resolve(products);
+                    resolve('Success');
                 }
             })
         })
     }
 
-    static findByNameContaining(name) {
-        let connect = connection.getConnection();
-        return new Promise((resolve, reject) => {
-            connect.query(`SELECT * FROM my_database1.product WHERE name LIKE '%${name}%'`, (err, products) => {
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(products);
-                }
-            })
-        })
-    }
+    // static findByNameContaining(name) {
+    //     let connect = connection.getConnection();
+    //     return new Promise((resolve, reject) => {
+    //         connect.query(`SELECT * FROM my_database1.product WHERE name LIKE '%${name}%'`, (err, products) => {
+    //             if (err) {
+    //                 reject(err);
+    //             }
+    //             else {
+    //                 resolve(products);
+    //             }
+    //         })
+    //     })
+    // }
 
     remove(id) {
         let connect = connection.getConnection();

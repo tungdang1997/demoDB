@@ -12,8 +12,8 @@ class homeHandle {
                     <td>${index + 1}</td>
                     <td>${product.name}</td>
                     <td>${product.price}</td>
-                    <td><img src="${product.image}" alt="khong" style="width: 50px; height: 50px"></td>
-                    <td><button style="background-color: blue ; color: white">Sua</button></td>
+                    <td><img src="./public/${product.image}" alt="khong" style="width: 50px; height: 50px"></td>
+                    <td><a href="/edit/${product.id}"><button style="background-color: blue ; color: white">Sua</button></a></td>
                     <td><a href="/delete/${product.id}"><button style="background-color: red ; color: white">Xoa</button></a></td>
                     </tr>
                     `
@@ -87,11 +87,11 @@ class homeHandle {
         }
     }
 
-    static editProduct(req, res, id) {
+    editProduct(req, res, id) {
         if (req.method === 'GET') {
             fs.readFile('./views/edit.html', 'utf-8', async (err, editHtml) => {
                 if (err) {
-                    console.log(err);
+                    console.log(err.message);
                 } else {
                     let product = await productService.findAll(id);
                     console.log(product);
@@ -113,7 +113,7 @@ class homeHandle {
                     console.log(err);
                 } else {
                     const product = qs.parse(data);
-                    const mess = await productService.update(product, id);
+                    const mess = await productService.edit(product, id);
                     console.log(mess);
                     res.writeHead(301, {'location': '/home'});
                     res.end();
